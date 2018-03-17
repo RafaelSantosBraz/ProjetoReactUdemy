@@ -1,8 +1,17 @@
 import React from 'react';
 
+// importação no mesmo diretório
+import NavMenu from './nav-menu'
 class Navbar extends React.Component {
     // função de renderização de retorna o "html" desejado
     render() {
+        // menu de links para o navbar
+        let menu = [
+            // cada um dos objetos do array
+            { titulo: "Home", link: "#home" },
+            { titulo: "Sobre", link: "#sobre" },
+            { titulo: "Contato", link: "#contato" }
+        ];
         // classe atribuída dinamicamente
         let corNav = "nav-wrapper " + this.props.cor;
         return (
@@ -13,11 +22,7 @@ class Navbar extends React.Component {
                     <div className="container">
                         {/* Utilização do parâmetro recebido */}
                         <a href="#" className="brand-logo">{this.props.titulo}</a>
-                        <ul id="nav-mobile" className="right">
-                            <li><a href="sass.html">Sass</a></li>
-                            <li><a href="badges.html">Components</a></li>
-                            <li><a href="collapsible.html">JavaScript</a></li>
-                        </ul>
+                        <NavMenu menu={menu}/>                    
                     </div>
                 </div>
             </nav>
