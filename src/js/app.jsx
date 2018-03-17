@@ -2,11 +2,16 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import Titulo from './titulo/titulo';
+import Navbar from './navbar/navbar';
 
 let App = (
     // sempre utilizar uma única estrutura
-    <div className="container">
-        <Titulo />
+    <div>
+        {/* Passagem de parâmetros para o componente*/}
+        <Navbar titulo="React" cor="red"/>
+        <div className="container">
+            <Titulo />
+        </div>
     </div>
 );
 
