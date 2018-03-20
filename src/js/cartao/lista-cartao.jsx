@@ -1,21 +1,28 @@
 import React from 'react';
 
 import Cartao from './cartao';
+import Busca from '../busca/busca'
 
 class ListaCartao extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { cliques: 0 };
+        this.state = { cliques: 0, busca: '' };
         // registro de método com (bind)
         this.addClique = this.addClique.bind(this);
+        this.atualizaBusca = this.atualizaBusca.bind(this);
     }
     // método que adiciona mais um clique ao total
     addClique() {
         //this.setState({cliques: this.state.cliques + 1});
         // versão correta para implementar acumulador
-        this.setState((prevState)=>({
+        this.setState((prevState) => ({
             cliques: prevState.cliques + 1
         }));
+    }
+    // método para atulizar a busca
+    atualizaBusca(evento) {
+        // capturar o valor digitado no campo de busca
+        this.setState({ busca: evento.target.value });
     }
     // função de renderização de retorna o "html" desejado
     render() {
@@ -75,6 +82,10 @@ class ListaCartao extends React.Component {
 
         return (
             <div>
+                {/* chamada do componente de busca */}
+                <div className="row">
+                    <Busca atualizaBusca={this.atualizaBusca} busca={this.state.busca} />
+                </div>
                 {/* Exibe o número de cliques sobre as imagens dos cartões */}
                 <p>Quantidade de cliques: {this.state.cliques}</p>
                 {linha}
