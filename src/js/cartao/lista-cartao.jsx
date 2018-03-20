@@ -6,10 +6,11 @@ import Busca from '../busca/busca'
 class ListaCartao extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { cliques: 0, busca: '' };
+        this.state = { cliques: 0, busca: '', dados: [], servidor: [] };
         // registro de método com (bind)
         this.addClique = this.addClique.bind(this);
         this.atualizaBusca = this.atualizaBusca.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
     // método que adiciona mais um clique ao total
     addClique() {
@@ -19,23 +20,62 @@ class ListaCartao extends React.Component {
             cliques: prevState.cliques + 1
         }));
     }
+    // método para realizar a busca
+    onSubmit(evento) {
+        //console.log(this.state.busca);
+        let busca = this.state.busca;
+        // servidor é a lista completa dos dados, sem perder a referência
+        let dados = this.state.servidor;
+        // pesquisa na lista, nos títulos|descrição|detalhe, se existe a busca
+        let novaLista = dados.filter(function (item) {
+            if (item.titulo.toUpperCase().indexOf(busca.toUpperCase()) > -1
+                || item.descricao.toUpperCase().indexOf(busca.toUpperCase()) > -1
+                || item.detalhe.toUpperCase().indexOf(busca.toUpperCase()) > -1) {
+                return item;
+            }
+        });
+        this.setState({ dados: novaLista });
+        // não atualiza a tela após o envio
+        evento.preventDefault();
+    }
     // método para atulizar a busca
     atualizaBusca(evento) {
         // capturar o valor digitado no campo de busca
         this.setState({ busca: evento.target.value });
+        // se o valor pesquisado for nulo, a lista toda é exibida
+        if (evento.target.value == ""){
+            this.setState({dados: this.state.servidor});
+        }
+    }
+    // executa quando o componente é criado
+    componentDidMount() {
+        this.setState({
+            dados:
+                [
+                    { titulo: 'Título 1', descricao: 'Descrição 1', detalhe: 'Detalhe 1', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' },
+                    { titulo: 'Título 2', descricao: 'Descrição 2', detalhe: 'Detalhe 2', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' },
+                    { titulo: 'Título 3', descricao: 'Descrição 3', detalhe: 'Detalhe 3', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' },
+                    { titulo: 'Título 4', descricao: 'Descrição 4', detalhe: 'Detalhe 4', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' },
+                    { titulo: 'Título 5', descricao: 'Descrição 5', detalhe: 'Detalhe 5', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' },
+                    { titulo: 'Título 6', descricao: 'Descrição 6', detalhe: 'Detalhe 6', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' },
+                    { titulo: 'Título 7', descricao: 'Descrição 7', detalhe: 'Detalhe 7', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' }
+                ],
+            servidor:
+                [
+                    { titulo: 'Título 1', descricao: 'Descrição 1', detalhe: 'Detalhe 1', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' },
+                    { titulo: 'Título 2', descricao: 'Descrição 2', detalhe: 'Detalhe 2', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' },
+                    { titulo: 'Título 3', descricao: 'Descrição 3', detalhe: 'Detalhe 3', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' },
+                    { titulo: 'Título 4', descricao: 'Descrição 4', detalhe: 'Detalhe 4', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' },
+                    { titulo: 'Título 5', descricao: 'Descrição 5', detalhe: 'Detalhe 5', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' },
+                    { titulo: 'Título 6', descricao: 'Descrição 6', detalhe: 'Detalhe 6', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' },
+                    { titulo: 'Título 7', descricao: 'Descrição 7', detalhe: 'Detalhe 7', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' }
+                ]
+        });
     }
     // função de renderização de retorna o "html" desejado
     render() {
-        // lista dos dados dos cartões
-        let noticias = [
-            { titulo: 'Título 1', descricao: 'Descrição 1', detalhe: 'Detalhe 1', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' },
-            { titulo: 'Título 2', descricao: 'Descrição 2', detalhe: 'Detalhe 1', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' },
-            { titulo: 'Título 3', descricao: 'Descrição 3', detalhe: 'Detalhe 1', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' },
-            { titulo: 'Título 4', descricao: 'Descrição 4', detalhe: 'Detalhe 1', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' },
-            { titulo: 'Título 5', descricao: 'Descrição 5', detalhe: 'Detalhe 1', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' },
-            { titulo: 'Título 6', descricao: 'Descrição 6', detalhe: 'Detalhe 1', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' },
-            { titulo: 'Título 7', descricao: 'Descrição 7', detalhe: 'Detalhe 1', imagem: 'http://materializecss.com/images/office.jpg', link: '#teste' }
-        ];
+        // lista dos dados dos cartões por meio do estado do componente
+        let noticias = this.state.dados;
         // lista auxiliar para divisão dos cartões por linha
         let aux = [];
         // lista agrupada dos cartões
@@ -78,13 +118,13 @@ class ListaCartao extends React.Component {
             );
         });
         // teste
-        console.log(novaLista);
+        //console.log(novaLista);
 
         return (
             <div>
                 {/* chamada do componente de busca */}
                 <div className="row">
-                    <Busca atualizaBusca={this.atualizaBusca} busca={this.state.busca} />
+                    <Busca atualizaBusca={this.atualizaBusca} onSubmit={this.onSubmit} busca={this.state.busca} />
                 </div>
                 {/* Exibe o número de cliques sobre as imagens dos cartões */}
                 <p>Quantidade de cliques: {this.state.cliques}</p>
