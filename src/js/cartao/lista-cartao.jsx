@@ -3,6 +3,20 @@ import React from 'react';
 import Cartao from './cartao';
 
 class ListaCartao extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { cliques: 0 };
+        // registro de método com (bind)
+        this.addClique = this.addClique.bind(this);
+    }
+    // método que adiciona mais um clique ao total
+    addClique() {
+        //this.setState({cliques: this.state.cliques + 1});
+        // versão correta para implementar acumulador
+        this.setState((prevState)=>({
+            cliques: prevState.cliques + 1
+        }));
+    }
     // função de renderização de retorna o "html" desejado
     render() {
         // lista dos dados dos cartões
@@ -37,20 +51,22 @@ class ListaCartao extends React.Component {
         // variável local para definir o tamanho da coluna dinamicamente
         let tamanhoCol = "col m" + this.props.tamanhoCol;
 
-        let listaCartoes = function (grupo) {
+        let listaCartoes = function (grupo, self) {
             return grupo.map(function (item, index) {
                 return (
                     <div key={index} className={tamanhoCol}>
-                        <Cartao dados={item} />
+                        <Cartao dados={item} addClique={self.addClique} />
                     </div>
                 );
             });
         };
+        // variável local de referência ao componente
+        let self = this;
         // linha de cartões
         let linha = novaLista.map(function (grupo, index) {
             return (
                 <div key={index} className="row">
-                    {listaCartoes(grupo)}
+                    {listaCartoes(grupo, self)}
                 </div>
             );
         });
@@ -59,6 +75,8 @@ class ListaCartao extends React.Component {
 
         return (
             <div>
+                {/* Exibe o número de cliques sobre as imagens dos cartões */}
+                <p>Quantidade de cliques: {this.state.cliques}</p>
                 {linha}
             </div>
         );
