@@ -14,6 +14,7 @@
   "author": "GuiFerreira",
   "license": "ISC",
   "devDependencies": {
+    "axios": "^0.18.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-react-easy": "^0.1.9",
@@ -23,6 +24,8 @@
     "react-dom": "^15.6.2"
   },
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "node-php-server": "^0.1.2",
+    "php": "0.0.1"
   }
 }
